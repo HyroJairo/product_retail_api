@@ -9,6 +9,12 @@ This is what this application can do:
 * Sort and query by category
 * Custom Queries and sorts
 
-- [x] example
-- [ ] https://github.com/octo-org/octo-repo/issues/740
-- [ ] Add delight to the experience when all tasks are complete :tada:
+
+
+```[tasklist]
+### Tasks
+- [ ] Python code of how user interacts with the store (buying, making transactions, giving reviews) - Jairo
+- [ ] Coding the queries (sorting different table attributes) needed, and databases besides user database - Payton
+- [ ] User database - Andrew
+- [ ] unit testing with Pytest - Mustafa
+```
