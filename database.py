@@ -3,28 +3,28 @@ import sqlite3
 # Sql statement to create users table
 create_users = (
     """ CREATE TABLE IF NOT EXISTS users(
-	user_id INT PRIMARY KEY NOT NULL,
-   	username VARCHAR(25) NOT NULL,
-	password VARCHAR(25) NOT NULL,
-	email VARCHAR(25),
-    address VARCHAR(50),
-    payment_method VARCHAR(25)); """
+    	 user_id INT PRIMARY KEY NOT NULL,
+	 username VARCHAR(25) NOT NULL,
+	 password VARCHAR(25) NOT NULL,
+	 email VARCHAR(25),
+	 address VARCHAR(50),
+	 payment_method VARCHAR(25)); """
 )
 
 # Sql statement to create products table
 create_products = (
     """CREATE TABLE IF NOT EXISTS products(
-	product_id INT PRIMARY KEY NOT NULL,
-   	product_name VARCHAR(25) NOT NULL,
+    	product_id INT PRIMARY KEY NOT NULL,
+	product_name VARCHAR(25) NOT NULL,
 	product_price DECIMAL NOT NULL,
 	product_category VARCHAR(25),
-    product_description VARCHAR(25));"""
+	product_description VARCHAR(25));"""
 )
 
 # Sql statement to create reviews table
 create_reviews = (
     """CREATE TABLE IF NOT EXISTS reviews(
-	review_id INT PRIMARY KEY NOT NULL,
+    	review_id INT PRIMARY KEY NOT NULL,
    	user_id INT NOT NULL,
 	review INT,
 	FOREIGN KEY(user_id) REFERENCES users(user_id));"""
@@ -43,7 +43,7 @@ create_orders = (
 create_product_orders = (
     """CREATE TABLE IF NOT EXISTS product_orders(
 	product_order_id INT PRIMARY KEY NOT NULL,
-    product_id INT NOT NULL,
+    	product_id INT NOT NULL,
    	order_id INT NOT NULL,
 	FOREIGN KEY(product_id) REFERENCES products(product_id),
 	FOREIGN KEY(order_id) REFERENCES orders(order_id));"""
