@@ -8,3 +8,7 @@ This is what this application can do:
 * Sort by popularity
 * Sort and query by category
 * Custom Queries and sorts
+
+- [x] example
+- [ ] https://github.com/octo-org/octo-repo/issues/740
+- [ ] Add delight to the experience when all tasks are complete :tada:
