@@ -46,12 +46,12 @@ def read_data():
 def delete_data():
     while(True):
         try:
-            sale_id = int(input(f"Type in the {PRIMARY_KEY} of the IKEA product that you want to delete:\n"))
+            product_id = int(input(f"Type in the {PRIMARY_KEY} of the IKEA product that you want to delete:\n"))
         except ValueError:
             print("That is not an integer!")
         else: break
     query = f"DELETE FROM {TABLE_NAME} WHERE {PRIMARY_KEY} = ?"
-    with conn: conn.execute(query, (sale_id,))
+    with conn: conn.execute(query, (product_id,))
 
 def prep_insert_qry(args, colnames):
     """ source: https://stackoverflow.com/a/70745278
