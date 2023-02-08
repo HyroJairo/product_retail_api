@@ -11,10 +11,10 @@ This is what this application can do:
 
 
 
-```[tasklist]
+
 ### Tasks
 - [ ] Python code of how user interacts with the store (buying, making transactions, giving reviews) - Jairo
 - [ ] Coding the queries (sorting different table attributes) needed, and databases besides user database - Payton
 - [ ] User database - Andrew
 - [ ] unit testing with Pytest - Mustafa
-```
+
