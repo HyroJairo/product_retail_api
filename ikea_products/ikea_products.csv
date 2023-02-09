@@ -1,4 +1,4 @@
-,item_id,name,category,price,old_price,sellable_online,link,other_colors,short_description,designer,depth,height,width
+id,item_id,name,category,price,old_price,sellable_online,link,other_colors,short_description,designer,depth,height,width
 0,90420332,FREKVENS,Bar furniture,265.0,No old price,True,https://www.ikea.com/sa/en/p/frekvens-bar-table-in-outdoor-black-90420332/,No,"        Bar table, in/outdoor,          51x51 cm",Nicholai Wiig Hansen,,99,51
 1,368814,NORDVIKEN,Bar furniture,995.0,No old price,False,https://www.ikea.com/sa/en/p/nordviken-bar-table-black-00368814/,No,"        Bar table,          140x80 cm",Francis Cayouette,,105,80
 2,9333523,NORDVIKEN / NORDVIKEN,Bar furniture,2095.0,No old price,False,https://www.ikea.com/sa/en/p/nordviken-nordviken-bar-table-and-4-bar-stools-black-black-s09333523/,No,        Bar table and 4 bar stools,Francis Cayouette,,,

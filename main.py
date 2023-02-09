@@ -41,7 +41,6 @@ def main():
         elif user_choice == 4:
             dbc.delete_data()
 
-
 if __name__ == "__main__":
     dbc.open_connection()
     main()
