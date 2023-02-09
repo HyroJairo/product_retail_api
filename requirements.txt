@@ -1,0 +1,4 @@
+flask
+pandas
+sqlite3
+SQLAlchemy
