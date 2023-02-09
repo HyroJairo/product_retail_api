@@ -1,5 +1,6 @@
 import ikea_products.ikea_products as ikp
 import database.curd as dbc
+import database.search as dbs
 
 def get_user_input() -> int:
     RETRY_STRING = "That is not a valid choice! (Must be an integer from 0-4)"
@@ -10,13 +11,14 @@ def get_user_input() -> int:
                             What do you want to do? (type 0-4, followed by enter)\n
                             0) Quit the Program
                             
-         Ikea Products Database 1) CREATE      2) UPDATE
-                                3) READ        4) DELETE\n
+         Ikea Products Database 1) CREATE         2) UPDATE
+                                3) READ           4) DELETE
+                                5) SORT BY PRICE  6) SORT BY CATEGORY\n
                             """))
         except ValueError:
             print(RETRY_STRING)
         else:
-            if user_choice >= 0 and user_choice < 5: 
+            if user_choice >= 0 and user_choice < 7: 
                 break
             else:
                 print(RETRY_STRING)
@@ -40,6 +42,10 @@ def main():
             dbc.read_data()
         elif user_choice == 4:
             dbc.delete_data()
+        elif user_choice == 5:
+            dbs.sort_by_price()
+        elif user_choice == 6:
+            dbs.sort_by_category()
 
 if __name__ == "__main__":
     dbc.open_connection()

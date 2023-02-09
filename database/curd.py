@@ -42,6 +42,9 @@ def update_data(attributes: list):
 
 def read_data():
     for row in conn.execute(f"SELECT * FROM {TABLE_NAME}"): print(row)
+
+def execute_and_read_statement(sql):
+    for row in conn.execute(sql): print(row)
     
 def delete_data():
     while(True):
