@@ -1,4 +1,4 @@
-from calculation import addition
+from calculation.calculation import addition
 
 def test_addition():
     arg1, arg2 = 3, 10
