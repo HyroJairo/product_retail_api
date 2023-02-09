@@ -1,11 +1,15 @@
 import copy
 import pandas as pd
 from pathlib import Path
+import os
 
 DASH_SEPARATOR = "\n" + ("-" * 50)
 
 class IkeaProducts():
-    ikea_products_file_path = Path("ikea_products/ikea_products.csv")
+    if os.path.exists("C:/Users/payto/Desktop/Icons/JUMP Program/Python/project/product_retail_api/ikea_products/ikea_products.csv"):
+        ikea_products_file_path = "C:/Users/payto/Desktop/Icons/JUMP Program/Python/project/product_retail_api/ikea_products/ikea_products.csv"
+    else:
+        ikea_products_file_path = Path("ikea_products/ikea_products.csv")
     
     def __init__(self):
         """Read csv and set item_id as the index column

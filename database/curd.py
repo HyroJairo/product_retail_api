@@ -1,11 +1,11 @@
 import sqlite3
 
-TABLE_NAME = "ikea_products"
+TABLE_NAME = "products"
 PRIMARY_KEY = "item_id"
 
 def open_connection():
     global conn
-    conn = sqlite3.connect(f"database/{TABLE_NAME}.db")
+    conn = sqlite3.connect(f"database.db")
 
 def persist_dataset(df):
     try:
