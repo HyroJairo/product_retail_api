@@ -32,8 +32,11 @@ def register():
         # pm = input("please enter your prefered payment methods: ")
         #confirm_password=input("")
         with engine.connect() as conn:
-            stmt = sqlalchemy.insert(Users).values(user_name=un, password=pw, email=em, address=ad, payment_methods=pm)
-            conn.execute(stmt)
+            try:
+                stmt = sqlalchemy.insert(Users).values(user_name=un, password=pw, email=em, address=ad, payment_methods=pm)
+                conn.execute(stmt)
+            except Exception as e:
+                return "email already exists"
             conn.commit()
         return 'account added'
     elif request.method=='PUT':
