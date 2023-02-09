@@ -26,7 +26,9 @@ create_reviews = (
     """CREATE TABLE IF NOT EXISTS reviews(
     	review_id INT PRIMARY KEY NOT NULL,
    	user_id INT NOT NULL,
+	product_id INT NOT NULL,
 	review INT,
+	FOREIGN KEY(product_id) REFERENCES products(product_id),
 	FOREIGN KEY(user_id) REFERENCES users(user_id));"""
 )
 
