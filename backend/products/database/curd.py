@@ -10,8 +10,7 @@ def open_connection():
 def persist_dataset(df):
     try:
         df.to_sql(TABLE_NAME, conn, if_exists='fail')
-    except ValueError:
-        print("Database already exists!")
+    except ValueError: pass
 
 def get_primary_key():
     query = f"SELECT MAX({PRIMARY_KEY}) FROM {TABLE_NAME}"
