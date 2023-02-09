@@ -16,7 +16,7 @@ def register():
     if os.path.exists(sqlite_path):
         sqlite_connect = "sqlite+pysqlite:///groupProject4/product_retail_api/userData.db"
     else:
-        sqlite_connect = "sqlite+pysqlite:///userData.db"
+        sqlite_connect = "sqlite+pysqlite:///user_data/database/userData.db"
         
     engine = sqlalchemy.create_engine(sqlite_connect)
     if request.method=='POST':
@@ -69,7 +69,7 @@ def login():
     if os.path.exists(sqlite_path):
         sqlite_connect = "sqlite+pysqlite:///groupProject4/product_retail_api/userData.db"
     else:
-        sqlite_connect = "sqlite+pysqlite:///userData.db"
+        sqlite_connect = "sqlite+pysqlite:///user_data/database/userData.db"
     engine = sqlalchemy.create_engine(sqlite_connect)
     
     username = request.json["username"]

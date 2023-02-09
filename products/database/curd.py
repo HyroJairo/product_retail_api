@@ -5,7 +5,7 @@ PRIMARY_KEY = "item_id"
 
 def open_connection():
     global conn
-    conn = sqlite3.connect(f"productDatabase.db")
+    conn = sqlite3.connect(f"products/database/productDatabase.db")
 
 def persist_dataset(df):
     try:

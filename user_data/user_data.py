@@ -2,7 +2,7 @@ import sqlalchemy
 from sqlalchemy import Column, String, Integer, Float
 from sqlalchemy.orm import declarative_base
 
-sqlite_connect = "sqlite+pysqlite:///userData.db"
+sqlite_connect = "sqlite+pysqlite:///user_data/database/userData.db"
 
 engine = sqlalchemy.create_engine(sqlite_connect)
 
