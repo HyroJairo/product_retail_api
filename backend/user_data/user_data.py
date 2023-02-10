@@ -1,5 +1,5 @@
-import os
 import sqlalchemy
+import os
 from sqlalchemy import Column, String, Integer, Float
 from sqlalchemy.orm import declarative_base
 
@@ -23,7 +23,7 @@ class Users(Base):
     payment_methods = Column(String, unique=False, nullable=False)
 
 
-class Products(Base):
+class Products(Base):#for testing purposes
     __tablename__="products"
     product_id = Column(Integer, primary_key=True, autoincrement=True)
     product_name = Column(String)
@@ -33,4 +33,4 @@ class Products(Base):
 
 
 
-Base.metadata.create_all(bind=engine)
+Base.metadata.create_all(bind=engine) #creates the database
