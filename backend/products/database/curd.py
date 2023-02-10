@@ -1,8 +1,13 @@
+import os
 import sqlite3
 
 def open_connection():
     global conn
-    conn = sqlite3.connect("C:/Users/payto/Desktop/Icons/JUMP Program/Python/project/product_retail_api/backend/products/database/Database.db")
+    connection_path = "C:/Users/payto/Desktop/Icons/JUMP Program/Python/project/product_retail_api/backend/products/database/Database.db"
+    if os.path.exists(connection_path):
+        conn = sqlite3.connect(connection_path)
+    else:
+        conn = sqlite3.connect(f"products/database/productDatabase.db")
 
 def persist_dataset(table_name, df):
     try:
