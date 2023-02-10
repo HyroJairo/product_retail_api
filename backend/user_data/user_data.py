@@ -3,11 +3,12 @@ import os
 from sqlalchemy import Column, String, Integer, Float
 from sqlalchemy.orm import declarative_base
 
-sqlite_path = "groupProject4/product_retail_api/backend/user_data/database/userData.db"
-if os.path.exists(sqlite_path):
-    sqlite_connect = "sqlite+pysqlite:///groupProject4/product_retail_api/backend/user_data/database/userData.db"
+user_data_path = "backend/products/database"
+if os.path.exists(user_data_path):
+    sqlite_connect = f"sqlite+pysqlite:///{user_data_path}/userData.db"   
 else:
-    sqlite_connect = "sqlite+pysqlite:///backend/user_data/database/userData.db"
+    sqlite_connect = "sqlite+pysqlite:///user_data/database/userData.db"
+
 engine = sqlalchemy.create_engine(sqlite_connect)
 
 Base = declarative_base()
