@@ -9,26 +9,23 @@ app = Flask(__name__)
 
 logged_in = False
 
+sqlite_path = "backend/user_data/database/userData.db"
+if os.path.exists(sqlite_path):
+    sqlite_connect = f"sqlite+pysqlite:///{sqlite_path}"
+else:
+    sqlite_connect = "sqlite+pysqlite:///user_data/database/userData.db"
+
 @app.route('/register', methods=['GET', 'POST', 'PUT', 'DELETE'])
 def register():
-    sqlite_path = "C:/Users/payto/Desktop/Icons/JUMP Program/Python/project/product_retail_api/"
-    if os.path.exists(sqlite_path):
-        sqlite_connect = "sqlite+pysqlite:///C:/Users/payto/Desktop/Icons/JUMP Program/Python/project/product_retail_api/backend/user_data/database/userData.db"
-    else:
-        sqlite_connect = "sqlite+pysqlite:///user_data/database/userData.db"
-        
     engine = sqlalchemy.create_engine(sqlite_connect)
+    
     if request.method=='POST':
         un = request.json["name"]
         pw = request.json["password"]
         em = request.json["email"]
         ad = request.json["address"]
         pm = request.json["payment_method"]
-        # un = input("please enter your name: ")
-        # pw = input("please enter a password: ")
-        # em = input("please enter an email: ")
-        # ad = input("please enter an address: ")
-        # pm = input("please enter your prefered payment methods: ")
+
         #confirm_password=input("")
         with engine.connect() as conn:
             try:
@@ -64,11 +61,7 @@ def login():
     print("reached login")
     
     global logged_in
-    sqlite_path = "groupProject4/product_retail_api/userData.db"
-    if os.path.exists(sqlite_path):
-        sqlite_connect = "sqlite+pysqlite:///groupProject4/product_retail_api/userData.db"
-    else:
-        sqlite_connect = "sqlite+pysqlite:///user_data/database/userData.db"
+    
     engine = sqlalchemy.create_engine(sqlite_connect)
     
     username = request.json["username"]

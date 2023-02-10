@@ -3,9 +3,10 @@ import sqlite3
 
 def open_connection():
     global conn
-    connection_path = "C:/Users/payto/Desktop/Icons/JUMP Program/Python/project/product_retail_api/backend/products/database/Database.db"
+
+    connection_path = "backend/products/database"
     if os.path.exists(connection_path):
-        conn = sqlite3.connect(connection_path)
+        conn = sqlite3.connect(f"{connection_path}/productDatabase.db")
     else:
         conn = sqlite3.connect(f"products/database/productDatabase.db")
 
