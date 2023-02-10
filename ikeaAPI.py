@@ -122,5 +122,5 @@ def logout():
 
 
 if __name__ =='__main__':
-    #prd.main()
+    #prd.main() #just turned off for testing my own part
     app.run(debug=True) #local host 5000
