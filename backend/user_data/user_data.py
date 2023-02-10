@@ -3,7 +3,7 @@ import os
 from sqlalchemy import Column, String, Integer, Float
 from sqlalchemy.orm import declarative_base
 
-user_data_path = "backend/products/database"
+user_data_path = "backend/user_data/database"
 if os.path.exists(user_data_path):
     sqlite_connect = f"sqlite+pysqlite:///{user_data_path}/userData.db"   
 else:
