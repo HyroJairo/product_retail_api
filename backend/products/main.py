@@ -25,7 +25,7 @@ def get_user_input() -> int:
 def main():
     dbc.open_connection()
     ikea_products = ikp.IkeaProducts()
-    dbc.persist_dataset(ikea_products.ikea_products_df)
+    dbc.persist_dataset("products", ikea_products.ikea_products_df)
     
     while(True):
         user_choice = get_user_input()
@@ -34,14 +34,13 @@ def main():
         if user_choice == 0:
             break
         elif user_choice == 1:
-            dbc.add_data(ikea_products.ikea_products_columns_list)
+            dbc.add_data("products", "item_id", ikea_products.ikea_products_columns_list)
         elif user_choice == 2:
-            dbc.update_data(ikea_products.ikea_products_columns_list)
+            dbc.update_data("products", ikea_products.ikea_products_columns_list)
         elif user_choice == 3:
-            dbc.read_data()
+            dbc.read_data("products")
         elif user_choice == 4:
-            dbc.delete_data()
-    dbc.close_connection()
+            dbc.delete_data("products", "item_id")
 
 if __name__ == "__main__":
     main()

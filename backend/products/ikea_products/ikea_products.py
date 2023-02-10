@@ -6,8 +6,9 @@ import os
 DASH_SEPARATOR = "\n" + ("-" * 50)
 
 class IkeaProducts():
-    if os.path.exists("C:/Users/payto/Desktop/Icons/JUMP Program/Python/project/product_retail_api/ikea_products/ikea_products.csv"):
-        ikea_products_file_path = "C:/Users/payto/Desktop/Icons/JUMP Program/Python/project/product_retail_api/ikea_products/ikea_products.csv"
+    alt_file_path = "C:/Users/payto/Desktop/Icons/JUMP Program/Python/project/product_retail_api/backend/products/ikea_products/ikea_products.csv"
+    if os.path.exists(alt_file_path):
+        ikea_products_file_path = alt_file_path
     else:
         ikea_products_file_path = Path("products/ikea_products/ikea_products.csv")
     

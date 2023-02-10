@@ -9,12 +9,11 @@ app = Flask(__name__)
 
 logged_in = False
 
-
 @app.route('/register', methods=['GET', 'POST', 'PUT', 'DELETE'])
 def register():
-    sqlite_path = "groupProject4/product_retail_api/userData.db"
+    sqlite_path = "C:/Users/payto/Desktop/Icons/JUMP Program/Python/project/product_retail_api/"
     if os.path.exists(sqlite_path):
-        sqlite_connect = "sqlite+pysqlite:///groupProject4/product_retail_api/userData.db"
+        sqlite_connect = "sqlite+pysqlite:///C:/Users/payto/Desktop/Icons/JUMP Program/Python/project/product_retail_api/backend/user_data/database/userData.db"
     else:
         sqlite_connect = "sqlite+pysqlite:///user_data/database/userData.db"
         
@@ -102,3 +101,4 @@ def login():
 if __name__ =='__main__':
     prd.main()
     app.run(debug=True) #local host 5000
+    prd.dbc.close_connection()
