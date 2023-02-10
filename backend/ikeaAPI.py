@@ -10,7 +10,6 @@ app = Flask(__name__)
 logged_in = False
 
 sqlite_path = "backend/user_data/database/userData.db"
-    
 if os.path.exists(sqlite_path):
     sqlite_connect = f"sqlite+pysqlite:///{sqlite_path}"
 else:
@@ -18,19 +17,15 @@ else:
 
 @app.route('/register', methods=['GET', 'POST', 'PUT', 'DELETE'])
 def register():
-       
     engine = sqlalchemy.create_engine(sqlite_connect)
+    
     if request.method=='POST':
         un = request.json["name"]
         pw = request.json["password"]
         em = request.json["email"]
         ad = request.json["address"]
         pm = request.json["payment_method"]
-        # un = input("please enter your name: ")
-        # pw = input("please enter a password: ")
-        # em = input("please enter an email: ")
-        # ad = input("please enter an address: ")
-        # pm = input("please enter your prefered payment methods: ")
+
         #confirm_password=input("")
         with engine.connect() as conn:
             try:
