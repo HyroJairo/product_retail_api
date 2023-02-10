@@ -1,7 +1,8 @@
 # Importing the flask module.
 # The Flask class creates the server for us
-from flask import request, jsonify
-from ikeaAPI import app
+from flask import request, jsonify, Blueprint
+
+simple_page = Blueprint('simple_page', __name__, template_folder='templates')
 
 # This is an in-memory collection to hold objects
 users = []
@@ -14,13 +15,13 @@ logged_in = False
 # The server instance can decorate a function
 # When the url is passed to route() is called, Flask will execute the function 
 # A Flask route must return a value, either text, HTML or JSON
-@app.route("/")
+@simple_page.route("/", methods=["GET"])
 def index():
     return "Welcome to the Ikea Store!!! :)"
 
 # Flask methods should be organized by URL
 # In this case, both adding users and getting all users is defined on /users
-@app.route("/users", methods=["GET", "POST"])
+@simple_page.route("/users", methods=["GET", "POST"])
 def handle_create_read():
 
     # This statement will immediately end the function if the user is not logged in
@@ -35,7 +36,7 @@ def handle_create_read():
 
 # Adding an <id> parameter of a URL will be called to this function
 # This function will handle updating users, deleting users, and retrieving one user by their id
-@app.route("/users/<id>", methods=["GET", "PUT", "DELETE"])
+@simple_page.route("/users/<id>", methods=["GET", "PUT", "DELETE"])
 def handle_update_delete(id):
 
     # This statement will immediately end the function if the user is not logged in
@@ -76,7 +77,7 @@ def handle_update_delete(id):
 
 # Flask methods should be organized by URL
 # In this case, both adding orders and getting all orders is defined on /orders
-@app.route("/orders", methods=["GET", "POST"])
+@simple_page.route("/orders", methods=["GET", "POST"])
 def view_orders():
 
     # This statement will immediately end the function if the order is not logged in
@@ -91,7 +92,7 @@ def view_orders():
 
 # Adding an <id> parameter of a URL will be called to this function
 # This function will handle updating orders, deleting orders, and retrieving one order by their id
-@app.route("/orders/<id>", methods=["GET", "PUT", "DELETE"])
+@simple_page.route("/orders/<id>", methods=["GET", "PUT", "DELETE"])
 def handle_update_delete_order(id):
 
     # This statement will immediately end the function if the order is not logged in
@@ -131,7 +132,7 @@ def handle_update_delete_order(id):
 #-------------------------------------------------------------------------------------------------------------------
 # Flask methods should be organized by URL
 # In this case, both adding products and getting all products is defined on /products
-@app.route("/products", methods=["GET", "POST"])
+@simple_page.route("/products", methods=["GET", "POST"])
 def view_products():
 
     # This statement will immediately end the function if the product is not logged in
@@ -146,7 +147,7 @@ def view_products():
 
 # Adding an <id> parameter of a URL will be called to this function
 # This function will handle updating products, deleting products, and retrieving one product by their id
-@app.route("/products/<id>", methods=["GET", "PUT", "DELETE"])
+@simple_page.route("/products/<id>", methods=["GET", "PUT", "DELETE"])
 def handle_update_delete_product(id):
 
     # This statement will immediately end the function if the product is not logged in

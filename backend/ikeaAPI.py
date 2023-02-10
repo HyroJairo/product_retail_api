@@ -1,11 +1,14 @@
 import os
-from flask import request, Flask
+from flask import request, Flask, Blueprint
 from user_data.user_data import Users
 import sqlalchemy
 from sqlalchemy import select
 import pandas as pd
 import products.main as prd
+from productAPI import simple_page
+
 app = Flask(__name__)
+app.register_blueprint(simple_page)
 
 logged_in = False
 
