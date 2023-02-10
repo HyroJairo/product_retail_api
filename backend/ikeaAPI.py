@@ -1,11 +1,10 @@
 import os
 from flask import request, Flask
-#from user_data import Users #for testing
-from user_data.user_data import Users #for main branch
+from user_data.user_data import Users
 import sqlalchemy
 from sqlalchemy import select
 import pandas as pd
-#import products.main as prd
+import products.main as prd
 app = Flask(__name__)
 
 logged_in = False
@@ -123,5 +122,6 @@ def logout():
 
 
 if __name__ =='__main__':
-    #prd.main() #just turned off for testing my own part
-    app.run(port=8080, debug=True) #local host 8080
+    prd.main()
+    app.run(port = 8080, debug=True) #local host 8080
+    prd.dbc.close_connection()
