@@ -3,9 +3,12 @@ import sqlite3
 
 def open_connection():
     global conn
-    connection_path = "C:/Users/payto/Desktop/Icons/JUMP Program/Python/project/product_retail_api/backend/products/database/Database.db"
+
+    connection_path = "backend/products/database" # This worked kind of ....
+    #connection_path = "/Users/maxmorales/Documents/product_retail_api/backend/products/database/" # This line needs to change for each user
     if os.path.exists(connection_path):
-        conn = sqlite3.connect(connection_path)
+        print(connection_path)
+        conn = sqlite3.connect(f"{connection_path}Database.db")
     else:
         conn = sqlite3.connect(f"products/database/productDatabase.db")
 
