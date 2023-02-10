@@ -1,30 +1,27 @@
 import sqlite3
 
-TABLE_NAME = "products"
-PRIMARY_KEY = "item_id"
-
 def open_connection():
     global conn
-    conn = sqlite3.connect(f"products/database/productDatabase.db")
+    conn = sqlite3.connect("C:/Users/payto/Desktop/Icons/JUMP Program/Python/project/product_retail_api/backend/products/database/Database.db")
 
-def persist_dataset(df):
+def persist_dataset(table_name, df):
     try:
-        df.to_sql(TABLE_NAME, conn, if_exists='fail')
+        df.to_sql(table_name, conn, if_exists='fail')
     except ValueError: pass
 
-def get_primary_key():
-    query = f"SELECT MAX({PRIMARY_KEY}) FROM {TABLE_NAME}"
+def get_primary_key(table_name, primary_key):
+    query = f"SELECT MAX({primary_key}) FROM {table_name}"
     return conn.execute(query).fetchone()[0]
 
-def add_data(attributes: list):
+def add_data(table_name, primary_key, attributes: list):
     user_data = [input(f"Enter input for {attribute}: ") for attribute in attributes]
-    user_data.append(int(get_primary_key() + 1))
-    attributes.append(PRIMARY_KEY)
+    user_data.append(int(get_primary_key(table_name, primary_key) + 1))
+    attributes.append(primary_key)
     
-    query, data = prep_insert_qry(user_data, attributes)
+    query, data = prep_insert_qry(table_name, user_data, attributes)
     with conn: conn.execute(query, data)
 
-def update_data(attributes: list):
+def update_data(table_name, attributes: list):
     while(True):
         attribute = input(f"What attribute do you want to change? Choose from this list: ({attributes})\n")
         if attribute not in attributes:
@@ -33,26 +30,26 @@ def update_data(attributes: list):
     value = input("What value do you want to set the attribute to? ")
     conditional = input("Type in the conditional statement after the WHERE clause: ")
     
-    query = f"UPDATE {TABLE_NAME} SET {attribute} = ? WHERE {conditional}"
+    query = f"UPDATE {table_name} SET {attribute} = ? WHERE {conditional}"
     try:
         with conn: conn.execute(query, (value,))
     except Exception as e:
         print(e)
 
-def read_data():
-    for row in conn.execute(f"SELECT * FROM {TABLE_NAME}"): print(row)
+def read_data(table_name):
+    for row in conn.execute(f"SELECT * FROM {table_name}"): print(row)
     
-def delete_data():
+def delete_data(table_name, primary_key):
     while(True):
         try:
-            product_id = int(input(f"Type in the {PRIMARY_KEY} of the IKEA product that you want to delete:\n"))
+            product_id = int(input(f"Type in the {primary_key} of the IKEA product that you want to delete:\n"))
         except ValueError:
             print("That is not an integer!")
         else: break
-    query = f"DELETE FROM {TABLE_NAME} WHERE {PRIMARY_KEY} = ?"
+    query = f"DELETE FROM {table_name} WHERE {primary_key} = ?"
     with conn: conn.execute(query, (product_id,))
 
-def prep_insert_qry(args, colnames):
+def prep_insert_qry(table_name, args, colnames):
     """ source: https://stackoverflow.com/a/70745278
     this query is secure as long as `colnames` contains trusted data
     standard parametrized query mechanism secures `args`
@@ -66,7 +63,7 @@ def prep_insert_qry(args, colnames):
             binds.extend(["?",","])
 
 
-    parts = [f"insert into {TABLE_NAME} ("]
+    parts = [f"insert into {table_name} ("]
     use = use[:-1]
     binds = binds[:-1]
     
