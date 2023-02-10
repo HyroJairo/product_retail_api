@@ -93,5 +93,5 @@ def login():
 
 if __name__ =='__main__':
     prd.main()
-    app.run(debug=True) #local host 5000
+    app.run(port = 8080, debug=True) #local host 8080
     prd.dbc.close_connection()
