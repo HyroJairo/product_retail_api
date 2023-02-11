@@ -46,9 +46,11 @@ def update_data(table_name, attributes: list):
 def read_data(table_name):
     for row in conn.execute(f"SELECT * FROM {table_name}"): print(row)
     
-def read_data_to_json(table_name):
-    products_df = pd.read_sql(sql=f"SELECT * FROM {table_name}", con=conn)
-    return products_df
+def read_data_to_df(table_name):
+    return pd.read_sql(sql=f"SELECT * FROM {table_name}", con=conn)
+
+def get_row_by_primary_key(table_name, primary_key, value):
+    return pd.read_sql(sql=f"SELECT * FROM {table_name} WHERE {primary_key} = {value}", con=conn)
 
 def execute_and_read_statement(sql):
     for row in conn.execute(sql): print(row)
