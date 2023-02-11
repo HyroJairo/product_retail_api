@@ -6,7 +6,7 @@ from sqlalchemy import select
 import pandas as pd
 import settings
 import products.main as prd
-import productAPI
+from productAPI import simple_page
 
 app = Flask(__name__)
 
@@ -120,6 +120,6 @@ def logout():
 if __name__ =='__main__':
     settings.init()
     prd.main()
-    app.register_blueprint(productAPI.simple_page)
+    app.register_blueprint(simple_page)
     app.run(port = 8080, debug=True) #local host 8080
     prd.dbc.close_connection()
