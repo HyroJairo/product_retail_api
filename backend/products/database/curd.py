@@ -1,14 +1,15 @@
 import os
+import pandas as pd
 import sqlite3
 
 def open_connection():
     global conn
 
-    connection_path = "backend/products/database"
-    if os.path.exists(connection_path):
-        conn = sqlite3.connect(f"{connection_path}/productDatabase.db")
+    if os.path.exists("backend/products/database"):
+        connection_path = "backend/products/database/productDatabase.db"
     else:
-        conn = sqlite3.connect(f"products/database/productDatabase.db")
+        connection_path = "products/database/productDatabase.db"
+    conn = sqlite3.connect(connection_path, check_same_thread=False)
 
 def persist_dataset(table_name, df):
     try:
@@ -44,6 +45,10 @@ def update_data(table_name, attributes: list):
 
 def read_data(table_name):
     for row in conn.execute(f"SELECT * FROM {table_name}"): print(row)
+    
+def read_data_to_json(table_name):
+    products_df = pd.read_sql(sql=f"SELECT * FROM {table_name}", con=conn)
+    return products_df
 
 def execute_and_read_statement(sql):
     for row in conn.execute(sql): print(row)
