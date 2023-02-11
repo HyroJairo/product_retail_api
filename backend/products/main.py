@@ -34,6 +34,7 @@ def main():
     dbc.persist_dataset("products", ikea_products.ikea_products_df)
     dbc.persist_dataset("reviews", product_reviews.product_reviews_df)
     
+    # Non-flask CLI testing
     while(True):
         user_choice = get_user_input()
         print(ikp.DASH_SEPARATOR)

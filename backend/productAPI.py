@@ -1,30 +1,30 @@
 # Importing the flask module.
 # The Flask class creates the server for us
-from flask import request, jsonify
-from ikeaAPI import app
+from flask import request, jsonify, Blueprint, render_template
+import products.main as prd
+import settings
+
+simple_page = Blueprint('simple_page', __name__, template_folder='templates')
 
 # This is an in-memory collection to hold objects
 users = []
 orders = []
 products = []
 
-# This is a boolean to determine if the user is logged in
-logged_in = False
-
 # The server instance can decorate a function
 # When the url is passed to route() is called, Flask will execute the function 
 # A Flask route must return a value, either text, HTML or JSON
-@app.route("/")
+@simple_page.route("/", methods=["GET"])
 def index():
     return "Welcome to the Ikea Store!!! :)"
 
 # Flask methods should be organized by URL
 # In this case, both adding users and getting all users is defined on /users
-@app.route("/users", methods=["GET", "POST"])
+@simple_page.route("/users", methods=["GET", "POST"])
 def handle_create_read():
 
     # This statement will immediately end the function if the user is not logged in
-    if not logged_in:
+    if not settings.logged_in:
         return "please login at /login"
 
     # The request object contains the information sent to the server from the client request
@@ -35,11 +35,11 @@ def handle_create_read():
 
 # Adding an <id> parameter of a URL will be called to this function
 # This function will handle updating users, deleting users, and retrieving one user by their id
-@app.route("/users/<id>", methods=["GET", "PUT", "DELETE"])
+@simple_page.route("/users/<id>", methods=["GET", "PUT", "DELETE"])
 def handle_update_delete(id):
 
     # This statement will immediately end the function if the user is not logged in
-    if not logged_in:
+    if not settings.logged_in:
         return "please login at /login"
     
     # The GET method at this URL will return one user if their id matches the value passed in the url
@@ -76,11 +76,11 @@ def handle_update_delete(id):
 
 # Flask methods should be organized by URL
 # In this case, both adding orders and getting all orders is defined on /orders
-@app.route("/orders", methods=["GET", "POST"])
+@simple_page.route("/orders", methods=["GET", "POST"])
 def view_orders():
 
     # This statement will immediately end the function if the order is not logged in
-    if not logged_in:
+    if not settings.logged_in:
         return "please login at /login"
 
     # The request object contains the information sent to the server from the client request
@@ -91,11 +91,11 @@ def view_orders():
 
 # Adding an <id> parameter of a URL will be called to this function
 # This function will handle updating orders, deleting orders, and retrieving one order by their id
-@app.route("/orders/<id>", methods=["GET", "PUT", "DELETE"])
+@simple_page.route("/orders/<id>", methods=["GET", "PUT", "DELETE"])
 def handle_update_delete_order(id):
 
     # This statement will immediately end the function if the order is not logged in
-    if not logged_in:
+    if not settings.logged_in:
         return "please login at /login"
     
     # The GET method at this URL will return one order if their id matches the value passed in the url
@@ -126,38 +126,44 @@ def handle_update_delete_order(id):
 #-------------------------------------------------------------------------------------------------------------------
 
 
-
+def render_df_into_html(df):
+    return render_template('simple.html', tables=[df.to_html(classes='date')], titles=df.columns.values)
 
 #-------------------------------------------------------------------------------------------------------------------
 # Flask methods should be organized by URL
 # In this case, both adding products and getting all products is defined on /products
-@app.route("/products", methods=["GET", "POST"])
+@simple_page.route("/products", methods=["GET", "POST"])
 def view_products():
 
     # This statement will immediately end the function if the product is not logged in
-    if not logged_in:
+    if not settings.logged_in:
         return "please login at /login"
 
     # The request object contains the information sent to the server from the client request
     # By switching behavior on the HTTP method, multiple request types can be handled.
     if request.method == "GET":
+        products_df = prd.dbc.read_data_to_df("products")
+        return render_df_into_html(products_df)
         # The get method wants to READ all products, so we return a json object of the products
-        return jsonify(products)
+        #return jsonify(products)
 
 # Adding an <id> parameter of a URL will be called to this function
 # This function will handle updating products, deleting products, and retrieving one product by their id
-@app.route("/products/<id>", methods=["GET", "PUT", "DELETE"])
+@simple_page.route("/products/<id>", methods=["GET", "PUT", "DELETE"])
 def handle_update_delete_product(id):
-
     # This statement will immediately end the function if the product is not logged in
-    if not logged_in:
+    if not settings.logged_in:
         return "please login at /login"
     
     # The GET method at this URL will return one product if their id matches the value passed in the url
     if request.method == "GET":
         # I am using a List Comprehension to filter the products list, then return that product
-        product = [product for product in products if product["id"] == id]
-        return jsonify(product)
+        products_df = prd.dbc.get_row_by_primary_key("products", "item_id", id)
+        if not products_df.empty:
+        # product = [product for product in products if product["id"] == id]
+            return render_df_into_html(products_df)
+        else:
+            return f"Product ID {id} does not exist!"
 
     # The PUT method will replace a product in the list if their id matches what was passed
     elif request.method == "PUT":
@@ -177,8 +183,3 @@ def handle_update_delete_product(id):
         # I am using a List Comprehension to filter the employees list, then return all employees that do not Match!
         product = [product for product in products if not product["id"] == id]
         return jsonify(product)
-
-# When this python file is run directly, the app will start
-if __name__ == "__main__":
-    # the debug argument will, among other things, automatically restart the reserver when changes are made to code
-    app.run(port = 8080, debug = True) # port of ikeaAPI is 5000
