@@ -126,7 +126,8 @@ def handle_update_delete_order(id):
 #-------------------------------------------------------------------------------------------------------------------
 
 
-
+def render_df_into_html(df):
+    return render_template('simple.html', tables=[df.to_html(classes='date')], titles=df.columns.values)
 
 #-------------------------------------------------------------------------------------------------------------------
 # Flask methods should be organized by URL
@@ -141,9 +142,8 @@ def view_products():
     # The request object contains the information sent to the server from the client request
     # By switching behavior on the HTTP method, multiple request types can be handled.
     if request.method == "GET":
-        products_json = prd.dbc.read_data_to_json("products")
-        return render_template('simple.html', tables=[products_json.to_html(classes='date')], titles=products_json.columns.values)
-        #return jsonify(prd.dbc.read_data_to_json("products"))
+        products_df = prd.dbc.read_data_to_df("products")
+        return render_df_into_html(products_df)
         # The get method wants to READ all products, so we return a json object of the products
         #return jsonify(products)
 
@@ -151,7 +151,6 @@ def view_products():
 # This function will handle updating products, deleting products, and retrieving one product by their id
 @simple_page.route("/products/<id>", methods=["GET", "PUT", "DELETE"])
 def handle_update_delete_product(id):
-
     # This statement will immediately end the function if the product is not logged in
     if not settings.logged_in:
         return "please login at /login"
@@ -159,8 +158,12 @@ def handle_update_delete_product(id):
     # The GET method at this URL will return one product if their id matches the value passed in the url
     if request.method == "GET":
         # I am using a List Comprehension to filter the products list, then return that product
-        product = [product for product in products if product["id"] == id]
-        return jsonify(product)
+        products_df = prd.dbc.get_row_by_primary_key("products", "item_id", id)
+        if not products_df.empty:
+        # product = [product for product in products if product["id"] == id]
+            return render_df_into_html(products_df)
+        else:
+            return f"Product ID {id} does not exist!"
 
     # The PUT method will replace a product in the list if their id matches what was passed
     elif request.method == "PUT":
