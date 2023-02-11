@@ -9,7 +9,7 @@ def get_user_input() -> int:
     while(True):
         try:
             user_choice = int(input("""
-                            What do you want to do? (type 0-4, followed by enter)\n
+                            What do you want to do? (type 0-8, followed by enter)\n
                             0) Proceed to server
                             
          Ikea Products Database 1) CREATE              2) UPDATE

@@ -25,7 +25,7 @@ class ProductReviews():
                }
         self.product_reviews_df = pd.DataFrame(data)
         self._product_reviews_columns_list = list(self.product_reviews_df.columns)
-        print(self.product_reviews_df)
+        #print(self.product_reviews_df)
         return self.product_reviews_df
     
     def print_head(self):
