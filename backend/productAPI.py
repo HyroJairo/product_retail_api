@@ -1,6 +1,8 @@
 # Importing the flask module.
 # The Flask class creates the server for us
-from flask import request, jsonify, Blueprint
+from flask import request, jsonify, Blueprint, render_template
+import products.main as prd
+import settings
 
 simple_page = Blueprint('simple_page', __name__, template_folder='templates')
 
@@ -8,9 +10,6 @@ simple_page = Blueprint('simple_page', __name__, template_folder='templates')
 users = []
 orders = []
 products = []
-
-# This is a boolean to determine if the user is logged in
-logged_in = False
 
 # The server instance can decorate a function
 # When the url is passed to route() is called, Flask will execute the function 
@@ -25,7 +24,7 @@ def index():
 def handle_create_read():
 
     # This statement will immediately end the function if the user is not logged in
-    if not logged_in:
+    if not settings.logged_in:
         return "please login at /login"
 
     # The request object contains the information sent to the server from the client request
@@ -40,7 +39,7 @@ def handle_create_read():
 def handle_update_delete(id):
 
     # This statement will immediately end the function if the user is not logged in
-    if not logged_in:
+    if not settings.logged_in:
         return "please login at /login"
     
     # The GET method at this URL will return one user if their id matches the value passed in the url
@@ -81,7 +80,7 @@ def handle_update_delete(id):
 def view_orders():
 
     # This statement will immediately end the function if the order is not logged in
-    if not logged_in:
+    if not settings.logged_in:
         return "please login at /login"
 
     # The request object contains the information sent to the server from the client request
@@ -96,7 +95,7 @@ def view_orders():
 def handle_update_delete_order(id):
 
     # This statement will immediately end the function if the order is not logged in
-    if not logged_in:
+    if not settings.logged_in:
         return "please login at /login"
     
     # The GET method at this URL will return one order if their id matches the value passed in the url
@@ -136,14 +135,17 @@ def handle_update_delete_order(id):
 def view_products():
 
     # This statement will immediately end the function if the product is not logged in
-    if not logged_in:
+    if not settings.logged_in:
         return "please login at /login"
 
     # The request object contains the information sent to the server from the client request
     # By switching behavior on the HTTP method, multiple request types can be handled.
     if request.method == "GET":
+        products_df = prd.dbc.read_data_to_json("products")
+        return render_template('simple.html', tables=[products_df.to_html(classes='date')], titles=products_df.columns.values)
+        #return jsonify(prd.dbc.read_data_to_json("products"))
         # The get method wants to READ all products, so we return a json object of the products
-        return jsonify(products)
+        #return jsonify(products)
 
 # Adding an <id> parameter of a URL will be called to this function
 # This function will handle updating products, deleting products, and retrieving one product by their id
@@ -151,7 +153,7 @@ def view_products():
 def handle_update_delete_product(id):
 
     # This statement will immediately end the function if the product is not logged in
-    if not logged_in:
+    if not settings.logged_in:
         return "please login at /login"
     
     # The GET method at this URL will return one product if their id matches the value passed in the url
@@ -178,8 +180,3 @@ def handle_update_delete_product(id):
         # I am using a List Comprehension to filter the employees list, then return all employees that do not Match!
         product = [product for product in products if not product["id"] == id]
         return jsonify(product)
-
-# When this python file is run directly, the app will start
-if __name__ == "__main__":
-    # the debug argument will, among other things, automatically restart the reserver when changes are made to code
-    app.run(port = 8080, debug = True) # port of ikeaAPI is 5000

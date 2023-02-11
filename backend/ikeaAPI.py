@@ -1,16 +1,14 @@
 import os
-from flask import request, Flask, Blueprint
+from flask import request, Flask
 from user_data.user_data import Users
 import sqlalchemy
 from sqlalchemy import select
 import pandas as pd
+import settings
 import products.main as prd
-from productAPI import simple_page
+import productAPI
 
 app = Flask(__name__)
-app.register_blueprint(simple_page)
-
-logged_in = False
 
 sqlite_path = "backend/user_data/database/userData.db"
 if os.path.exists(sqlite_path):
@@ -79,8 +77,7 @@ def register():
 
 @app.route('/login', methods=['POST']) #for logging in with an existing email
 def login():
-    global logged_in
-    if logged_in == True:
+    if settings.logged_in:
         return 'Already Logged In'
     
     engine = sqlalchemy.create_engine(sqlite_connect)
@@ -94,7 +91,7 @@ def login():
         new_data = pd.read_sql(select(Users).where(Users.email==email), conn).values.tolist()
         if new_data:
             if (new_data[0][2]==password and new_data[0][3]==email):
-                logged_in = True
+                settings.logged_in = True
                 return f'Welcome {new_data[0][1]}'
             # for i, j in zip(newdb, newdp): #an old method of searching throught he data base to see if two columns match at the same row
             #     if i == [True] and j == [True]:
@@ -113,15 +110,16 @@ def login():
         
 @app.route('/logout', methods=['POST']) # logout returns nothing if you are not logged in (remember that debug mode resets to false whenever you save while running)
 def logout():
-    global logged_in
-    if logged_in == True:
-        logged_in = False
+    if settings.logged_in:
+        settings.logged_in = False
         return 'Logged Out'
     else:
         return 'Not Logged In'
 
 
 if __name__ =='__main__':
+    settings.init()
     prd.main()
+    app.register_blueprint(productAPI.simple_page)
     app.run(port = 8080, debug=True) #local host 8080
     prd.dbc.close_connection()
