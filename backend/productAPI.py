@@ -141,8 +141,8 @@ def view_products():
     # The request object contains the information sent to the server from the client request
     # By switching behavior on the HTTP method, multiple request types can be handled.
     if request.method == "GET":
-        products_df = prd.dbc.read_data_to_json("products")
-        return render_template('simple.html', tables=[products_df.to_html(classes='date')], titles=products_df.columns.values)
+        products_json = prd.dbc.read_data_to_json("products")
+        return render_template('simple.html', tables=[products_json.to_html(classes='date')], titles=products_json.columns.values)
         #return jsonify(prd.dbc.read_data_to_json("products"))
         # The get method wants to READ all products, so we return a json object of the products
         #return jsonify(products)
