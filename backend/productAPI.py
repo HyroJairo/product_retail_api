@@ -171,7 +171,7 @@ def handle_update_delete_product(id):
         # Here, I am creating a loop to find the product by the id from the URL.
         new_product = request.json
         index = -1
-        for i, product in enumerate(product):
+        for i, product in enumerate(products):
             if product["id"] == id:
                 index = i
         if index != -1:
