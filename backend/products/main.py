@@ -37,7 +37,7 @@ def main():
         if user_choice == 0:
             break
         elif user_choice == 1:
-            dbc.add_data("products", "item_id", ikea_products.ikea_products_columns_list)
+            dbc.add_data_from_input("products", "item_id", ikea_products.ikea_products_columns_list)
         elif user_choice == 2:
             dbc.update_data("products", ikea_products.ikea_products_columns_list)
         elif user_choice == 3:

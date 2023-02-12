@@ -4,19 +4,22 @@ try:
 except Exception as e: pass
 
 # Sorts items by price
-def sort_by_price():
+def sort_by_price(conn = None):
     sql = """SELECT * FROM products ORDER BY price"""
-    dbc.execute_and_read_statement(sql)
+    dbc.execute_and_read_statement(sql, conn)
+    return dbc.execute_statement_and_get_df(sql, conn)
 
 # Sorts/queries items by category
-def sort_by_category():
+def sort_by_category(conn = None):
     sql = """SELECT * FROM products ORDER BY category"""
-    dbc.execute_and_read_statement(sql)
+    dbc.execute_and_read_statement(sql, conn)
+    return dbc.execute_statement_and_get_df(sql, conn)
 
 # Sorts items by popularity
-def sort_by_popularity():
+def sort_by_popularity(conn = None):
     sql = """SELECT * FROM reviews ORDER BY review DESC"""
-    dbc.execute_and_read_statement(sql)
+    dbc.execute_and_read_statement(sql, conn)
+    return dbc.execute_statement_and_get_df(sql, conn)
 
 # Custom queries/sorts
 def custom_query(attributes: list):

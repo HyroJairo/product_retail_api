@@ -16,11 +16,25 @@ def persist_dataset(table_name, df):
         df.to_sql(table_name, conn, if_exists='fail')
     except ValueError: pass
 
-def get_primary_key(table_name, primary_key):
+def get_primary_key(table_name, primary_key, connection = None):
+    if connection is None:
+        connection = conn
     query = f"SELECT MAX({primary_key}) FROM {table_name}"
-    return conn.execute(query).fetchone()[0]
+    return connection.execute(query).fetchone()[0]
 
-def add_data(table_name, primary_key, attributes: list):
+def add_data(table_name, primary_key, attributes: list, user_data: list, connection = None):
+    if connection is None:
+        connection = conn
+    try:
+        user_data.append(int(get_primary_key(table_name, primary_key, connection) + 1))
+    except TypeError:
+        user_data.append(1)
+    attributes.append(primary_key)
+    
+    query, data = prep_insert_qry(table_name, user_data, attributes)
+    with connection: connection.execute(query, data)
+
+def add_data_from_input(table_name, primary_key, attributes: list):
     user_data = [input(f"Enter input for {attribute}: ") for attribute in attributes]
     user_data.append(int(get_primary_key(table_name, primary_key) + 1))
     attributes.append(primary_key)
@@ -43,8 +57,15 @@ def update_data(table_name, attributes: list):
     except Exception as e:
         print(e)
 
-def read_data(table_name):
-    for row in conn.execute(f"SELECT * FROM {table_name}"): print(row)
+def return_df_of_table(table_name, connection = None):
+    if connection is None:
+        connection = conn
+    return pd.read_sql(sql=f"SELECT * FROM {table_name}", con=connection)
+
+def read_data(table_name, connection = None):
+    if connection is None:
+        connection = conn
+    for row in connection.execute(f"SELECT * FROM {table_name}"): print(row)
     
 def read_data_to_df(table_name):
     return pd.read_sql(sql=f"SELECT * FROM {table_name}", con=conn)
@@ -52,8 +73,15 @@ def read_data_to_df(table_name):
 def get_row_by_primary_key(table_name, primary_key, value):
     return pd.read_sql(sql=f"SELECT * FROM {table_name} WHERE {primary_key} = {value}", con=conn)
 
-def execute_and_read_statement(sql):
-    for row in conn.execute(sql): print(row)
+def execute_and_read_statement(sql, connection = None):
+    if connection is None:
+        connection = conn
+    for row in connection.execute(sql): print(row)
+    
+def execute_statement_and_get_df(sql, connection = None):
+    if connection is None:
+        connection = conn
+    return pd.read_sql(sql=sql, con=connection)
     
 def delete_data(table_name, primary_key):
     while(True):
