@@ -62,7 +62,6 @@ def custom_query(attributes: list):
                                 sql = f"SELECT * FROM products WHERE {attribute} {op} {value}"
                                 print(f"SQL: {sql}")
                                 dbc.execute_and_read_statement(sql)
-                                return dbc.execute_statement_and_get_df(sql)
                                 break
                             except Exception as e:
                                 print(f"Error: {e}")
