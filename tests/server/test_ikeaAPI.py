@@ -127,15 +127,18 @@ class TestLogoutRoute():
     
     ### POST
     
+    def logout_post(self, client):
+        return client.post(self.URL)
+    
     def test_logout_post_type(self, client):
-        response = client.post(self.URL)
+        response = self.logout_post(client)
         assert(response.content_type == 'text/html; charset=utf-8')
         
     def test_logout_post_data(self, client):
         TestLoginRoute().register_login_post(client)
-        response = client.post(self.URL)
+        response = self.logout_post(client)
         assert(response.get_data().decode('UTF-8') == 'Logged Out')
         
     def test_logout_post_not_logged_in(self, client):
-        response = client.post(self.URL)
+        response = self.logout_post(client)
         assert(response.get_data().decode('UTF-8') == 'Not Logged In')  
