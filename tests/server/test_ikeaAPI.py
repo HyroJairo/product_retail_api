@@ -1,6 +1,6 @@
 class TestRegisterRoute():
-    EMAIL = "testingtesting123@gmail.com"
     NAME = "Mustafa"
+    EMAIL = "testingtesting123@gmail.com"
     PASSWORD = "y0u_c4n't_gU3$$_th1s"
     EMAIL_DICT = {"email": EMAIL}
     
