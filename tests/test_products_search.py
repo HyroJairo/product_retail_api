@@ -26,14 +26,14 @@ class TestProduct():
     ATTRIBUTES = ["name", "price", "category", "description"]
     
     def add_products_to_table(self, conn):
-        curd.add_data(TestProduct.TABLE_NAME, TestProduct.PRIMARY_KEY, TestProduct.ATTRIBUTES, ["Vardar", 11.55, "Chair", "A lovely chair!"], conn)
-        curd.add_data(TestProduct.TABLE_NAME, TestProduct.PRIMARY_KEY, TestProduct.ATTRIBUTES, ["Magdal", 9.55, "Table", "A lovely table!"], conn)
-        curd.add_data(TestProduct.TABLE_NAME, TestProduct.PRIMARY_KEY, TestProduct.ATTRIBUTES, ["Gormand", 15.55, "Art", "Pretty art!"], conn)
-        curd.add_data(TestProduct.TABLE_NAME, TestProduct.PRIMARY_KEY, TestProduct.ATTRIBUTES, ["NICETUN", 3.55, "Wall Cover", "A lovely cover!"], conn)
+        curd.add_data(self.TABLE_NAME, self.PRIMARY_KEY, self.ATTRIBUTES, ["Vardar", 11.55, "Chair", "A lovely chair!"], conn)
+        curd.add_data(self.TABLE_NAME, self.PRIMARY_KEY, self.ATTRIBUTES, ["Magdal", 9.55, "Table", "A lovely table!"], conn)
+        curd.add_data(self.TABLE_NAME, self.PRIMARY_KEY, self.ATTRIBUTES, ["Gormand", 15.55, "Art", "Pretty art!"], conn)
+        curd.add_data(self.TABLE_NAME, self.PRIMARY_KEY, self.ATTRIBUTES, ["NICETUN", 3.55, "Wall Cover", "A lovely cover!"], conn)
     
     def test_sort_by_price_monotonicity(self):
         conn = pre_setup(database_schemas.create_products, self.add_products_to_table)
-        price_df = curd.return_df_of_table(TestProduct.TABLE_NAME, conn)
+        price_df = curd.return_df_of_table(self.TABLE_NAME, conn)
         assert(not price_df.price.is_monotonic_increasing)
         post_setup(conn)
 
@@ -46,7 +46,7 @@ class TestProduct():
 
     def test_sort_by_category_monotonicity(self):
         conn = pre_setup(database_schemas.create_products, self.add_products_to_table)
-        price_df = curd.return_df_of_table(TestProduct.TABLE_NAME, conn)
+        price_df = curd.return_df_of_table(self.TABLE_NAME, conn)
         assert(not price_df.category.is_monotonic_increasing)
         post_setup(conn)
 
@@ -64,14 +64,14 @@ class TestReview():
     ATTRIBUTES = ["user_id", "product_id", "review"]
     
     def add_products_to_table(self, conn):
-        curd.add_data(TestReview.TABLE_NAME, TestReview.PRIMARY_KEY, TestReview.ATTRIBUTES, [1, 1, 5], conn)
-        curd.add_data(TestReview.TABLE_NAME, TestReview.PRIMARY_KEY, TestReview.ATTRIBUTES, [1, 2, 3], conn)
-        curd.add_data(TestReview.TABLE_NAME, TestReview.PRIMARY_KEY, TestReview.ATTRIBUTES, [1, 3, 5], conn)
-        curd.add_data(TestReview.TABLE_NAME, TestReview.PRIMARY_KEY, TestReview.ATTRIBUTES, [1, 4, 1], conn)
+        curd.add_data(self.TABLE_NAME, self.PRIMARY_KEY, self.ATTRIBUTES, [1, 1, 5], conn)
+        curd.add_data(self.TABLE_NAME, self.PRIMARY_KEY, self.ATTRIBUTES, [1, 2, 3], conn)
+        curd.add_data(self.TABLE_NAME, self.PRIMARY_KEY, self.ATTRIBUTES, [1, 3, 5], conn)
+        curd.add_data(self.TABLE_NAME, self.PRIMARY_KEY, self.ATTRIBUTES, [1, 4, 1], conn)
     
     def test_sort_by_popularity(self):
         conn = pre_setup(database_schemas.create_reviews, self.add_products_to_table)
-        reviews_df = curd.return_df_of_table(TestReview.TABLE_NAME, conn)
+        reviews_df = curd.return_df_of_table(self.TABLE_NAME, conn)
         assert(not reviews_df.review.is_monotonic_decreasing)
         post_setup(conn)
     
