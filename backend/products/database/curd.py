@@ -57,6 +57,11 @@ def update_data(table_name, attributes: list):
     except Exception as e:
         print(e)
 
+def return_df_of_table(table_name, connection = None):
+    if connection is None:
+        connection = conn
+    return pd.read_sql(sql=f"SELECT * FROM {table_name}", con=connection)
+
 def read_data(table_name, connection = None):
     if connection is None:
         connection = conn
