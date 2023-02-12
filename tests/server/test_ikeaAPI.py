@@ -23,53 +23,59 @@ class TestRegisterRoute():
 
     URL = '/register/'
     
-    def register_post(self, client):
-        client.post(self.URL, json=self.DICT)
-    
     ### POST
     
+    def register_post(self, client):
+        return client.post(self.URL, json=self.DICT)
+    
     def test_register_post_type(self, client):
-        response = client.post(self.URL, json=self.DICT)
+        response = self.register_post(client)
         assert(response.content_type == 'text/html; charset=utf-8')   
         
     def test_register_post_data(self, client):
-        response = client.post(self.URL, json=self.DICT)
+        response = self.register_post(client)
         assert(response.get_data().decode('UTF-8') == 'account added')
         
     def test_register_post_exists(self, client):
-        response = client.post(self.URL, json=self.DICT)
-        response = client.post(self.URL, json=self.DICT)
+        self.register_post(client)
+        response = self.register_post(client)
         assert(response.get_data().decode('UTF-8') == 'email already exists')  
     
     ### PUT
     
+    def register_put(self, client):
+        return client.put(self.URL, json=self.CURRENT_EMAIL_DICT)
+    
     def test_register_put_type(self, client):
-        response = client.put(self.URL, json=self.CURRENT_EMAIL_DICT)
+        response = self.register_put(client)
         assert(response.content_type == 'text/html; charset=utf-8')
         
     def test_register_put_data(self, client):
         self.register_post(client)
-        response = client.put(self.URL, json=self.CURRENT_EMAIL_DICT)
+        response = self.register_put(client)
         assert(response.get_data().decode('UTF-8') == 'account updated')
         
     def test_register_put_invalid(self, client):
-        response = client.put(self.URL, json=self.CURRENT_EMAIL_DICT)
+        response = self.register_put(client)
         assert(response.get_data().decode('UTF-8') == 'invalid email')  
     
     ### DELETE
 
+    def register_delete(self, client):
+        return client.delete(self.URL, json=self.EMAIL_DICT)
+
     def test_register_delete_type(self, client):
         self.register_post(client)
-        response = client.delete(self.URL, json=self.EMAIL_DICT)
+        response = self.register_delete(client)
         assert(response.content_type == 'text/html; charset=utf-8')
         
     def test_register_delete_data(self, client):
         self.register_post(client)
-        response = client.delete(self.URL, json=self.EMAIL_DICT)
+        response = self.register_delete(client)
         assert(response.get_data().decode('UTF-8') == 'account deleted')
     
     def test_register_delete_invalid(self, client):
-        response = client.delete(self.URL, json=self.EMAIL_DICT)
+        response = self.register_delete(client)
         assert(response.get_data().decode('UTF-8') == 'invalid email')
         
     ### GET
@@ -92,44 +98,44 @@ class TestLoginRoute():
     
     ### POST
     
+    def login_post(self, client):
+        return client.post(self.URL, json=self.DICT)
+    
+    def register_login_post(self, client):
+        TestRegisterRoute().register_post(client)
+        return self.login_post(client)
+    
     def test_login_post_type(self, client):
-        response = client.post(self.URL, json=self.DICT)
+        response = self.login_post(client)
         assert(response.content_type == 'text/html; charset=utf-8')   
         
     def test_login_post_data(self, client):
-        TestRegisterRoute.register_post(TestRegisterRoute, client)
-        response = client.post(self.URL, json=self.DICT)
+        response = self.register_login_post(client)
         assert(response.get_data().decode('UTF-8') == f'Welcome {TestRegisterRoute.NAME}')
         
     def test_login_post_logged_in(self, client):
-        TestRegisterRoute.register_post(TestRegisterRoute, client)
-        client.post(self.URL, json=self.DICT)
-        response = client.post(self.URL, json=self.DICT)
+        self.register_login_post(client)
+        response = self.login_post(client)
         assert(response.get_data().decode('UTF-8') == 'Already Logged In')   
         
     def test_login_post_invalid(self, client):
-        response = client.post(self.URL, json=self.DICT)
+        response = self.login_post(client)
         assert(response.get_data().decode('UTF-8') == 'invalid')
         
-# class TestLogoutoute():
-#     DICT = {
-#             "email": TestRegisterRoute.EMAIL,
-#             "password": TestRegisterRoute.PASSWORD,
-#         }
+class TestLogoutRoute():
+    URL = '/logout/'
     
-#     URL = '/login/'
+    ### POST
     
-#     ### POST
-    
-#     def test_login_post_type(self, client):
-#         response = client.post(self.URL, json=self.DICT)
-#         assert(response.content_type == 'text/html; charset=utf-8')   
+    def test_logout_post_type(self, client):
+        response = client.post(self.URL)
+        assert(response.content_type == 'text/html; charset=utf-8')
         
-#     def test_login_post_data(self, client):
-#         TestRegisterRoute.register_post(TestRegisterRoute, client)
-#         response = client.post(self.URL, json=self.DICT)
-#         assert(response.get_data().decode('UTF-8') == f'Welcome {TestRegisterRoute.NAME}')
+    def test_logout_post_data(self, client):
+        TestLoginRoute().register_login_post(client)
+        response = client.post(self.URL)
+        assert(response.get_data().decode('UTF-8') == 'Logged Out')
         
-#     def test_login_post_invalid(self, client):
-#         response = client.post(self.URL, json=self.DICT)
-#         assert(response.get_data().decode('UTF-8') == 'invalid')  
+    def test_logout_post_not_logged_in(self, client):
+        response = client.post(self.URL)
+        assert(response.get_data().decode('UTF-8') == 'Not Logged In')  
