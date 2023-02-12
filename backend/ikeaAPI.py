@@ -61,7 +61,7 @@ def create_app():
                 dlt = [True for i in dlt if [True] == i]
                 try:
                     if dlt == []:
-                        raise e
+                        raise Exception
                     stmt = sqlalchemy.update(Users).where(Users.email==current_email).values(user_name=un, password=pw, email=em, address=ad, payment_methods=pm)
                     conn.execute(stmt)
                     conn.commit()
@@ -77,7 +77,7 @@ def create_app():
                 dlt = [True for i in dlt if [True] == i]
                 try:
                     if dlt == []:
-                        raise e
+                        raise Exception
                     stmt = sqlalchemy.delete(Users).where(Users.email==current_email)
                     conn.execute(stmt)
                     conn.commit()
