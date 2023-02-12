@@ -38,7 +38,8 @@ class TestRegisterRoute():
         self.register_post(client)
         response = client.delete(TestRegisterRoute.REGISTER_URL, json=TestRegisterRoute.REGISTER_DICT)
         assert(response.get_data().decode('UTF-8') == 'account deleted')
-        
+    
+    # test fails due to bug in code  
     # def test_register_delete_invalid(self, client):
     #     response = client.delete(TestRegisterRoute.REGISTER_URL, json=TestRegisterRoute.REGISTER_DICT)
     #     assert(response.get_data().decode('UTF-8') == 'invalid email')
