@@ -14,7 +14,7 @@ create_users = (
 # Sql statement to create products table
 create_products = (
     """CREATE TABLE IF NOT EXISTS products(
-    product_id INT PRIMARY KEY NOT NULL,
+    	product_id INT PRIMARY KEY NOT NULL,
 	name VARCHAR(25) NOT NULL,
 	price DECIMAL NOT NULL,
 	category VARCHAR(25),
