@@ -9,4 +9,5 @@ def test_register_get(client):
     url = '/register/'
     
     response = client.post(url, json=data)
-    print(response)
+    print(response.get_data())
+    assert(response.content_type == 'text/html; charset=utf-8')
