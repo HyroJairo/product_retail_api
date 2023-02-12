@@ -65,15 +65,19 @@ def create_app():
                     return "invalid email"
             return 'account updated'
         elif request.method=='DELETE':
-            email = request.json["email"]
+            current_email = request.json["email"]
             #email=input("What is your email: ") #an old method of adding from command line instead of postman
             
             with engine.connect() as conn:
+                dlt = pd.read_sql(sqlalchemy.select(Users.email==current_email), conn).values.tolist()
+                dlt = [True for i in dlt if [True] == i]
                 try:
-                    stmt = sqlalchemy.delete(Users).where(Users.email==email)
+                    if dlt == []:
+                        raise e
+                    stmt = sqlalchemy.delete(Users).where(Users.email==current_email)
                     conn.execute(stmt)
                     conn.commit()
-                except:
+                except Exception as e:
                     return 'invalid email'
             return 'account deleted'
         return 'nothing here'
