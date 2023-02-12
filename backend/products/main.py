@@ -30,28 +30,28 @@ def main():
     dbc.persist_dataset("reviews", product_reviews.product_reviews_df)
     
     # Non-flask CLI testing
-    while(True):
-        user_choice = get_user_input()
-        print(ikp.DASH_SEPARATOR)
+    # while(True):
+    #     user_choice = get_user_input()
+    #     print(ikp.DASH_SEPARATOR)
         
-        if user_choice == 0:
-            break
-        elif user_choice == 1:
-            dbc.add_data_from_input("products", "item_id", ikea_products.ikea_products_columns_list)
-        elif user_choice == 2:
-            dbc.update_data("products", ikea_products.ikea_products_columns_list)
-        elif user_choice == 3:
-            dbc.read_data("products")
-        elif user_choice == 4:
-            dbc.delete_data("products", "item_id")
-        elif user_choice == 5:
-            dbs.sort_by_price()
-        elif user_choice == 6:
-            dbs.sort_by_category()
-        elif user_choice == 7:
-            dbs.sort_by_popularity()
-        elif user_choice == 8:
-            dbs.custom_query(ikea_products.ikea_products_columns_list)
+    #     if user_choice == 0:
+    #         break
+    #     elif user_choice == 1:
+    #         dbc.add_data_from_input("products", "item_id", ikea_products.ikea_products_columns_list)
+    #     elif user_choice == 2:
+    #         dbc.update_data("products", ikea_products.ikea_products_columns_list)
+    #     elif user_choice == 3:
+    #         dbc.read_data("products")
+    #     elif user_choice == 4:
+    #         dbc.delete_data("products", "item_id")
+    #     elif user_choice == 5:
+    #         dbs.sort_by_price()
+    #     elif user_choice == 6:
+    #         dbs.sort_by_category()
+    #     elif user_choice == 7:
+    #         dbs.sort_by_popularity()
+    #     elif user_choice == 8:
+    #         dbs.custom_query(ikea_products.ikea_products_columns_list)
 
 if __name__ == "__main__":
     import ikea_products.ikea_products as ikp
