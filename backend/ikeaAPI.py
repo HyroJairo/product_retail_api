@@ -57,12 +57,16 @@ def create_app():
                 # em = input("please enter an email: ")
                 # ad = input("please enter an address: ")
                 # pm = input("please enter your prefered payment methods: ")
+                dlt = pd.read_sql(sqlalchemy.select(Users.email==current_email), conn).values.tolist()
+                dlt = [True for i in dlt if [True] == i]
                 try:
+                    if dlt == []:
+                        raise e
                     stmt = sqlalchemy.update(Users).where(Users.email==current_email).values(user_name=un, password=pw, email=em, address=ad, payment_methods=pm)
                     conn.execute(stmt)
                     conn.commit()
                 except Exception as e:
-                    return "invalid email"
+                    return 'invalid email'
             return 'account updated'
         elif request.method=='DELETE':
             current_email = request.json["email"]
