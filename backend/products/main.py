@@ -1,29 +1,24 @@
-import products.ikea_products.ikea_products as ikp
-import products.product_reviews.product_reviews as pr
-import products.database.curd as dbc
-import products.search as dbs
-
 def get_user_input() -> int:
-    RETRY_STRING = "That is not a valid choice! (Must be an integer from 0-8)"
+    RETRY_STRING = "\nThat is not a valid choice! (Must be an integer from 0-8)"
     
-    while(True):
-        try:
-            user_choice = int(input("""
+    try:
+        user_choice = int(input(f"""
                             What do you want to do? (type 0-8, followed by enter)\n
-                            0) Proceed to server
+                                0) {__name__ == "__main__" and "Quit" or "Proceed to server"}
                             
          Ikea Products Database 1) CREATE              2) UPDATE
                                 3) READ                4) DELETE
                                 5) SORT BY PRICE       6) SORT BY CATEGORY
                                 7) SORT BY POPULARITY  8) CUSTOM QUERY\n
                             """))
-        except ValueError:
+    except ValueError:
+            user_choice = -1
             print(RETRY_STRING)
-        else:
-            if user_choice >= 0 and user_choice < 9: 
-                break
-            else:
-                print(RETRY_STRING)
+    else:
+        if not (user_choice >= 0 and user_choice < 9):
+            user_choice = -1
+            print(RETRY_STRING)
+    
     return user_choice
 
 def main():
@@ -59,4 +54,13 @@ def main():
             dbs.custom_query(ikea_products.ikea_products_columns_list)
 
 if __name__ == "__main__":
+    import ikea_products.ikea_products as ikp
+    import product_reviews.product_reviews as pr
+    import database.curd as dbc
+    import search as dbs
     main()
+else:
+    import products.ikea_products.ikea_products as ikp
+    import products.product_reviews.product_reviews as pr
+    import products.database.curd as dbc
+    import products.search as dbs
