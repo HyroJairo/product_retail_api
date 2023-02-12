@@ -14,11 +14,11 @@ create_users = (
 # Sql statement to create products table
 create_products = (
     """CREATE TABLE IF NOT EXISTS products(
-    	product_id INT PRIMARY KEY NOT NULL,
-	product_name VARCHAR(25) NOT NULL,
-	product_price DECIMAL NOT NULL,
-	product_category VARCHAR(25),
-	product_description VARCHAR(25));"""
+    product_id INT PRIMARY KEY NOT NULL,
+	name VARCHAR(25) NOT NULL,
+	price DECIMAL NOT NULL,
+	category VARCHAR(25),
+	description VARCHAR(25));"""
 )
 
 # Sql statement to create reviews table
