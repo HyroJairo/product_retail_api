@@ -69,3 +69,13 @@ class TestRegisterRoute():
     def test_register_delete_invalid(self, client):
         response = client.delete(self.REGISTER_URL, json=self.REGISTER_EMAIL_DICT)
         assert(response.get_data().decode('UTF-8') == 'invalid email')
+        
+    ### GET
+    
+    def test_register_get_type(self, client):
+        response = client.get(self.REGISTER_URL)
+        assert(response.content_type == 'text/html; charset=utf-8')
+        
+    def test_register_get_data(self, client):
+        response = client.get(self.REGISTER_URL)
+        assert(response.get_data().decode('UTF-8') == 'nothing here')
