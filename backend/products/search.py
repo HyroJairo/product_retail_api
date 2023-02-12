@@ -1,4 +1,7 @@
-import products.database.curd as dbc
+try:
+    import database.curd as dbc
+    import products.database.curd as dbc
+except Exception as e: pass
 
 # Sorts items by price
 def sort_by_price():
