@@ -22,7 +22,6 @@ def get_user_input() -> int:
     return user_choice
 
 def cli_testing(ikea_products):
-    # Non-flask CLI testing
     while(True):
         user_choice = get_user_input()
         print(ikp.DASH_SEPARATOR)
