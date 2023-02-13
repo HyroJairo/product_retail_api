@@ -1,17 +1,10 @@
 import copy
-import pandas as pd
-from pathlib import Path
-import os
 import random
+import pandas as pd
 
 DASH_SEPARATOR = "\n" + ("-" * 50)
 
 class ProductReviews():
-    if os.path.exists("C:/Users/payto/Desktop/Icons/JUMP Program/Python/project/product_retail_api/backend/products/product_reviews/product_reviews.py"):
-        product_reviews_file_path = "C:/Users/payto/Desktop/Icons/JUMP Program/Python/project/product_retail_api/backend/products/product_reviews/product_reviews.py"
-    else:
-        product_reviews_file_path = Path("product_reviews/product_reviews.py")
-    
     @property
     def product_reviews_columns_list(self):
         return copy.deepcopy(self._product_reviews_columns_list)
@@ -25,7 +18,6 @@ class ProductReviews():
                }
         self.product_reviews_df = pd.DataFrame(data)
         self._product_reviews_columns_list = list(self.product_reviews_df.columns)
-        #print(self.product_reviews_df)
         return self.product_reviews_df
     
     def print_head(self):
