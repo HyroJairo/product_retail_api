@@ -20,7 +20,6 @@ class TestProductsRoute():
         self.initialize_products_database_and_login(client)
         response = client.get(self.URL)
         assert(response.content_type == 'text/html; charset=utf-8')
-        
     
     def test_products_get_data(self, client):
         matches = [*OUTDOOR_FURNITURE_LIST_MATCH, *WARDROBE_LIST_MATCH]
