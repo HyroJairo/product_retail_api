@@ -123,4 +123,5 @@ def prep_insert_qry(table_name, args, colnames):
     return qry, tuple([v for v in args if not v is None])
 
 def close_connection():
-    conn.close()
+    if 'conn' in globals():
+        conn.close()
