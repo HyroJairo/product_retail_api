@@ -23,9 +23,9 @@ This is what this application can do:
 
 Example of how program can be interacted with:
 
-1. Start program from backend/ikeaAPI.py (https://github.com/HyroJairo/product_retail_api/blob/main/backend/ikeaAPI.py)
-2. Download program Postman Desktop from https://www.postman.com/downloads/
-3. Run following commands in the Postman Desktop application, in order:
+1. Start the program from backend/ikeaAPI.py (https://github.com/HyroJairo/product_retail_api/blob/main/backend/ikeaAPI.py)
+2. Download the program Postman Desktop from https://www.postman.com/downloads/
+3. Run the following commands in the Postman Desktop application, in order:
         
         1. POST: localhost:8080/register/
         Body - raw: {
