@@ -13,8 +13,7 @@ This is what this application can do:
 
 
 ### Tasks
-- [ ] Python code of how user interacts with the store (buying, making transactions, giving reviews) - Jairo
-- [ ] Coding the queries (sorting different table attributes) needed, and databases besides user database - Payton
-- [ ] User database - Andrew
-- [ ] unit testing with Pytest - Mustafa
-
+- [x] Python code of how user interacts with the store (buying, making transactions, giving reviews) - Jairo
+- [x] Coding the queries (sorting different table attributes) needed, and databases besides user database - Payton
+- [X] User database - Andrew
+- [x] unit testing with Pytest - Mustafa
