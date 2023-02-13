@@ -4,8 +4,8 @@ import main as prd
 import test_ikeaAPI
 
 DUVHOLMEN_ID = "79291360"
-OUTDOOR_FURNITURE_LIST_MATCH = [DUVHOLMEN_ID, "FRÖSÖN/DUVHOLMEN", "Outdoor furniture", "70.0",   "Chair cushion, outdoor,          50x50 cm"]
-WARDROBE_LIST_MATCH = ["69157376", "ELVARLI",          "Wardrobes",         "1231.0", "2 sections,          175x51x222-350 cm"]
+DUVHOLMEN_LIST_MATCH = [DUVHOLMEN_ID, "FRÖSÖN/DUVHOLMEN", "Outdoor furniture", "70.0",   "Chair cushion, outdoor,          50x50 cm"]
+ELVARLI_LIST_MATCH =   ["69157376",   "ELVARLI",          "Wardrobes",         "1231.0", "2 sections,          175x51x222-350 cm"]
 
 class TestProductsRoute():
     URL = '/products/'
@@ -22,7 +22,7 @@ class TestProductsRoute():
         assert(response.content_type == 'text/html; charset=utf-8')
     
     def test_products_get_data(self, client):
-        matches = [*OUTDOOR_FURNITURE_LIST_MATCH, *WARDROBE_LIST_MATCH]
+        matches = [*DUVHOLMEN_LIST_MATCH, *ELVARLI_LIST_MATCH]
         
         self.initialize_products_database_and_login(client)
         response = client.get(self.URL)
@@ -49,7 +49,7 @@ class TestProductIdRoute():
         
     def test_product_id_get_data(self, client):
         response = self.initialize_database_login_and_get_url(client)
-        assert(all([x in response.get_data().decode('UTF-8') for x in OUTDOOR_FURNITURE_LIST_MATCH]))
+        assert(all([x in response.get_data().decode('UTF-8') for x in DUVHOLMEN_LIST_MATCH]))
         
     def test_products_id_get_not_logged_in(self, client):
         response = client.get(self.URL)
