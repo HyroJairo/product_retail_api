@@ -36,19 +36,19 @@ Example of how program can be interacted with:
                 "payment_method": "card"
         }
 
-        2. POST: localhost:8080/login
+        2. POST: localhost:8080/login/
         Body - raw: {
             "email": "testing3@gmail.com",
             "password": "aabccc"
         }
 
-        3. GET: localhost:8080/products
+        3. GET: localhost:8080/products/
         Response should be of type "Preview" at the bottom
 
         4. GET: localhost:8080/products/79291360/
         Response should be of type "Preview" at the bottom
 
-        5. POST: localhost:8080/logout
+        5. POST: localhost:8080/logout/
         No data needed to send
 
         6. DELETE: localhost:8080/register/
