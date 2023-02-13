@@ -67,7 +67,9 @@ def read_data(table_name, connection = None):
         connection = conn
     for row in connection.execute(f"SELECT * FROM {table_name}"): print(row)
     
-def read_data_to_df(table_name):
+def read_data_to_df(table_name, connection = None):
+    if connection is None:
+        connection = conn
     return pd.read_sql(sql=f"SELECT * FROM {table_name}", con=conn)
 
 def get_row_by_primary_key(table_name, primary_key, value):
@@ -121,4 +123,5 @@ def prep_insert_qry(table_name, args, colnames):
     return qry, tuple([v for v in args if not v is None])
 
 def close_connection():
-    conn.close()
+    if 'conn' in globals():
+        conn.close()

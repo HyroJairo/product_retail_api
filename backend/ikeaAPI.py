@@ -1,6 +1,6 @@
 import os
 from flask import request, Flask
-from user_data.user_data import Users
+from user_data.user_data import Users, engine
 import sqlalchemy
 from sqlalchemy import select
 import pandas as pd
@@ -12,6 +12,7 @@ def create_app():
     settings.init()
     
     app = Flask(__name__)
+    app.register_blueprint(simple_page)
 
     sqlite_path = "backend/user_data/database/userData.db"
     if os.path.exists(sqlite_path):
@@ -40,8 +41,12 @@ def create_app():
                     stmt = sqlalchemy.insert(Users).values(user_name=un, password=pw, email=em, address=ad, payment_methods=pm)
                     conn.execute(stmt)
                 except Exception as e:
+                    conn.close()
+                    engine.dispose()
                     return "email already exists"
                 conn.commit()
+                conn.close() 
+                engine.dispose() 
             return 'account added'
         elif request.method=='PUT':
             current_email = request.json["current_email"]
@@ -65,10 +70,14 @@ def create_app():
                     stmt = sqlalchemy.update(Users).where(Users.email==current_email).values(user_name=un, password=pw, email=em, address=ad, payment_methods=pm)
                     conn.execute(stmt)
                     conn.commit()
+                    conn.close()
+                    engine.dispose() 
                 except Exception as e:
+                    conn.close()
+                    engine.dispose() 
                     return 'invalid email'
             return 'account updated'
-        elif request.method=='DELETE':
+        elif request.method=='DELETE':  ### TODO: Log out users who are deleted while logged in
             current_email = request.json["email"]
             #email=input("What is your email: ") #an old method of adding from command line instead of postman
             
@@ -81,9 +90,14 @@ def create_app():
                     stmt = sqlalchemy.delete(Users).where(Users.email==current_email)
                     conn.execute(stmt)
                     conn.commit()
+                    conn.close()
+                    engine.dispose()  
                 except Exception as e:
+                    conn.close()
+                    engine.dispose() 
                     return 'invalid email'
             return 'account deleted'
+        engine.dispose()
         return 'nothing here'
 
     @app.route('/login/', methods=['POST']) #for logging in with an existing email
@@ -103,6 +117,8 @@ def create_app():
             if new_data:
                 if (new_data[0][2]==password and new_data[0][3]==email):
                     settings.logged_in = True
+                    conn.close()
+                    engine.dispose()
                     return f'Welcome {new_data[0][1]}'
                 # for i, j in zip(newdb, newdp): #an old method of searching throught he data base to see if two columns match at the same row
                 #     if i == [True] and j == [True]:
@@ -111,8 +127,10 @@ def create_app():
                 #         logged_in = True
                 #         return 'logged in'
             else:
+                conn.close()
+                engine.dispose()
                 return 'invalid'
-                
+        engine.dispose()        
         # if session.query(Users).filter(Users.user_name==username) & session.query(Users).filter(Users.password==password): 
         #     logged_in = True 
         #     return 'Logged In'            ###### an older moethod of using users.filters to find the username ########
@@ -126,12 +144,13 @@ def create_app():
             return 'Logged Out'
         else:
             return 'Not Logged In'
-        
+     
     return app
 
 if __name__ =='__main__':
-    prd.main()
+    ikea_products = prd.main()
+    #prd.cli_testing(ikea_products)
     app = create_app()
-    app.register_blueprint(simple_page)
     app.run(port = 8080)#, debug=True) #local host 8080
     prd.dbc.close_connection()
+    engine.dispose()
