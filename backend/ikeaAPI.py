@@ -148,7 +148,8 @@ def create_app():
     return app
 
 if __name__ =='__main__':
-    prd.main()
+    ikea_products = prd.main()
+    #prd.cli_testing(ikea_products)
     app = create_app()
     app.run(port = 8080)#, debug=True) #local host 8080
     prd.dbc.close_connection()

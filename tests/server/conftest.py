@@ -26,7 +26,9 @@ def remove_all_database_records(connection_path):
 
 def pytest_runtest_setup(item):
     if os.path.exists(PRODUCT_DB_PATH):
-        remove_all_database_records(PRODUCT_DB_PATH)
+        # remove_all_database_records(PRODUCT_DB_PATH)
+        close_connection()
+        os.remove(PRODUCT_DB_PATH)
     if os.path.exists(USER_DB_PATH):
         remove_all_database_records(USER_DB_PATH)
 
