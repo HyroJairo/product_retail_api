@@ -27,7 +27,9 @@ Example of how program can be interacted with:
 2. Download the program Postman Desktop from https://www.postman.com/downloads/
 3. Run the following commands in the Postman Desktop application, in order:
         
-        1. POST: localhost:8080/register/
+        1. GET: localhost:8080/
+        
+        2. POST: localhost:8080/register/
         Body - raw: {
                 "name": "TestingMan",
                 "password": "aabccc",
@@ -36,22 +38,22 @@ Example of how program can be interacted with:
                 "payment_method": "card"
         }
 
-        2. POST: localhost:8080/login/
+        3. POST: localhost:8080/login/
         Body - raw: {
             "email": "testing3@gmail.com",
             "password": "aabccc"
         }
 
-        3. GET: localhost:8080/products/
+        4. GET: localhost:8080/products/
         Response should be of type "Preview" at the bottom
 
-        4. GET: localhost:8080/products/79291360/
+        5. GET: localhost:8080/products/79291360/
         Response should be of type "Preview" at the bottom
 
-        5. POST: localhost:8080/logout/
+        6. POST: localhost:8080/logout/
         No data needed to send
 
-        6. DELETE: localhost:8080/register/
+        7. DELETE: localhost:8080/register/
         Body - raw: {
                 "name": "TestingMan",
                 "password": "aabccc",
