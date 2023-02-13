@@ -20,11 +20,13 @@ This is what this application can do:
 
 
 
+
 Example of how program can be interacted with:
 
 1. Start program from backend/ikeaAPI.py
 2. Download program Postman Desktop from https://www.postman.com/downloads/
 3. Run following commands in the Postman Desktop application, in order:
+        
         1. POST: localhost:8080/register/
         Body - raw: {
                 "name": "TestingMan",
